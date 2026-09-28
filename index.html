@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Case of Us</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0D0D12;
+  color: #F5F1EA;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.screen {
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.content {
+  width: min(700px, 100%);
+}
+
+.label {
+  color: #D8A7B1;
+  font-size: 13px;
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(45px, 9vw, 80px);
+  line-height: 1;
+  margin: 0 0 15px;
+  font-weight: normal;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 6vw, 52px);
+  font-weight: normal;
+  margin: 0 0 20px;
+}
+
+.subtitle {
+  color: #AAA6A0;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 30px;
+}
+
+.quote {
+  color: #AAA6A0;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.6;
+  margin: 25px auto;
+  max-width: 550px;
+}
+
+button {
+  border: none;
+  background: #D8A7B1;
+  color: #0D0D12;
+  padding: 16px 30px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.status {
+  color: #706D69;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 35px;
+}
+
+.password-box {
+  width: min(380px, 100%);
+  margin: 25px auto 10px;
+}
+
+input {
+  width: 100%;
+  background: #17171F;
+  border: 1px solid #34343D;
+  color: #F5F1EA;
+  padding: 17px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 6px;
+  outline: none;
+  border-radius: 4px;
+}
+
+input:focus {
+  border-color: #D8A7B1;
+}
+
+.message {
+  min-height: 25px;
+  margin-top: 18px;
+  color: #D8A7B1;
+  font-size: 13px;
+}
+
+.loading {
+  width: min(350px, 80%);
+  height: 5px;
+  background: #34343D;
+  margin: 30px auto 15px;
+  overflow: hidden;
+}
+
+.loading-fill {
+  height: 100%;
+  width: 82%;
+  background: #D8A7B1;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image:
+    radial-gradient(#fff 0.6px, transparent 0.6px);
+  background-size: 5px 5px;
+}
+
+.fade {
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<section id="screen1" class="screen active">
+  <div class="grain"></div>
+
+  <div class="content fade">
+    <div class="label">CLASSIFIED</div>
+
+    <h1>CASE FILE<br>0609</h1>
+
+    <div class="subtitle">SUBJECT: MANU</div>
+
+    <div class="quote">
+      Some cases begin when two people meet.<br>
+      This one began much earlier.
+    </div>
+
+    <button onclick="showScreen(2)">
+      BEGIN INVESTIGATION
+    </button>
+
+    <div class="status">
+      FILE STATUS: CLASSIFIED
+    </div>
+  </div>
+</section>
+
+
+<!-- SCREEN 2 -->
+<section id="screen2" class="screen">
+  <div class="grain"></div>
+
+  <div class="content fade">
+    <div class="label">SECURITY CHECK</div>
+
+    <h2>IDENTITY VERIFICATION</h2>
+
+    <div class="subtitle">
+      Before accessing this file, confirm your identity.
+    </div>
+
+    <div class="password-box">
+      <input
+        id="password"
+        type="password"
+        placeholder="ENTER PASSWORD"
+        maxlength="4"
+        inputmode="numeric"
+      >
+
+      <button onclick="checkPassword()">
+        VERIFY
+      </button>
+
+      <div id="message" class="message"></div>
+    </div>
+
+    <div class="quote">
+      Hint: The date everything officially changed.
+    </div>
+
+    <div class="status">
+      AUTHENTICATION REQUIRED
+    </div>
+  </div>
+</section>
+
+
+<!-- SCREEN 3 -->
+<section id="screen3" class="screen">
+  <div class="grain"></div>
+
+  <div class="content fade">
+    <div class="label">ACCESS GRANTED</div>
+
+    <h2>Welcome, Manu.</h2>
+
+    <div class="subtitle">
+      Your case has been open for quite some time.<br>
+      Today, you're finally going to see the evidence.
+    </div>
+
+    <div class="loading">
+      <div class="loading-fill"></div>
+    </div>
+
+    <div class="status">
+      SYSTEM STATUS: ONLINE
+    </div>
+
+    <button onclick="alert('The investigation begins...')">
+      OPEN CASE →
+    </button>
+  </div>
+</section>
+
+
+<script>
+function showScreen(number) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById("screen" + number).classList.add("active");
+
+  window.scrollTo(0, 0);
+}
+
+function checkPassword() {
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("message");
+
+  if (password === "0609") {
+    message.textContent = "✓ IDENTITY VERIFIED";
+    setTimeout(() => {
+      showScreen(3);
+    }, 700);
+  } else {
+    message.textContent = "✕ ACCESS DENIED — TRY AGAIN";
+  }
+}
+</script>
+
+</body>
+</html>
