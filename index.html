@@ -3,18 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>The Case of Us</title>
 
 <style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: #0D0D12;
   color: #F5F1EA;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
 
@@ -24,7 +34,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 40px 24px;
+  padding: 50px 22px;
   position: relative;
   overflow: hidden;
 }
@@ -34,73 +44,133 @@ body {
 }
 
 .content {
-  width: min(700px, 100%);
+  width: min(720px, 100%);
+  position: relative;
+  z-index: 2;
 }
 
 .label {
   color: #D8A7B1;
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: 4px;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   text-transform: uppercase;
 }
 
 h1 {
-  font-family: Georgia, serif;
-  font-size: clamp(45px, 9vw, 80px);
-  line-height: 1;
-  margin: 0 0 15px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 12vw, 86px);
+  line-height: 0.95;
+  margin: 0 0 18px;
   font-weight: normal;
 }
 
 h2 {
-  font-family: Georgia, serif;
-  font-size: clamp(30px, 6vw, 52px);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(31px, 8vw, 55px);
+  line-height: 1.05;
   font-weight: normal;
-  margin: 0 0 20px;
+  margin: 0 0 22px;
+}
+
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: normal;
 }
 
 .subtitle {
   color: #AAA6A0;
   font-size: 16px;
-  line-height: 1.7;
-  max-width: 520px;
+  line-height: 1.8;
+  max-width: 560px;
   margin: 0 auto 30px;
 }
 
 .quote {
   color: #AAA6A0;
-  font-family: Georgia, serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: 19px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.7;
   margin: 25px auto;
-  max-width: 550px;
-}
-
-button {
-  border: none;
-  background: #D8A7B1;
-  color: #0D0D12;
-  padding: 16px 30px;
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-top: 15px;
-}
-
-button:hover {
-  opacity: 0.9;
+  max-width: 560px;
 }
 
 .status {
   color: #706D69;
   font-size: 10px;
   letter-spacing: 2px;
-  margin-top: 35px;
+  margin-top: 30px;
+  text-transform: uppercase;
 }
+
+button {
+  border: none;
+  background: #D8A7B1;
+  color: #0D0D12;
+  padding: 16px 28px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 15px;
+  transition: 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.secondary-button {
+  background: transparent;
+  color: #D8A7B1;
+  border: 1px solid #D8A7B1;
+}
+
+.message {
+  min-height: 25px;
+  margin-top: 18px;
+  color: #D8A7B1;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image:
+    radial-gradient(#fff 0.6px, transparent 0.6px);
+  background-size: 5px 5px;
+}
+
+.fade {
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
 
 .password-box {
   width: min(380px, 100%);
@@ -124,12 +194,10 @@ input:focus {
   border-color: #D8A7B1;
 }
 
-.message {
-  min-height: 25px;
-  margin-top: 18px;
-  color: #D8A7B1;
-  font-size: 13px;
-}
+
+/* =========================================================
+   LOADING
+========================================================= */
 
 .loading {
   width: min(350px, 80%);
@@ -145,45 +213,442 @@ input:focus {
   background: #D8A7B1;
 }
 
-.grain {
+
+/* =========================================================
+   MEDIA PLACEHOLDERS
+========================================================= */
+
+.media-placeholder {
+  width: 100%;
+  min-height: 250px;
+  background: #17171F;
+  border: 1px dashed #4A4852;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 28px auto;
+  color: #706D69;
+  padding: 25px;
+}
+
+.media-placeholder .media-icon {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+
+.media-placeholder strong {
+  color: #AAA6A0;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.media-placeholder small {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #706D69;
+}
+
+.photo-frame {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 10px;
+  margin: 28px auto;
+  max-width: 540px;
+}
+
+.photo-placeholder {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #20202A;
+  color: #706D69;
+  letter-spacing: 2px;
+  font-size: 11px;
+}
+
+.photo-caption {
+  padding: 12px 5px 4px;
+  color: #706D69;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   EVIDENCE CARDS
+========================================================= */
+
+.evidence-card {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 22px;
+  margin: 18px 0;
+  text-align: left;
+}
+
+.evidence-number {
+  color: #D8A7B1;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.evidence-card h3 {
+  font-size: 25px;
+  margin: 5px 0 12px;
+}
+
+.evidence-card p {
+  color: #AAA6A0;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.evidence-status {
+  color: #706D69;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  margin-top: 15px;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-box {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 28px;
+  text-align: left;
+  margin-top: 25px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid #2A2931;
+}
+
+.profile-row:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  color: #706D69;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.profile-value {
+  color: #F5F1EA;
+  font-size: 13px;
+  text-align: right;
+}
+
+
+/* =========================================================
+   MEMORY GRID
+========================================================= */
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.memory-card {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 8px;
+}
+
+.memory-photo {
+  min-height: 190px;
+  background: #20202A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #706D69;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.memory-title {
+  color: #AAA6A0;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  margin-top: 10px;
+  padding-bottom: 4px;
+}
+
+
+/* =========================================================
+   FUTURE
+========================================================= */
+
+.future-box {
+  position: relative;
+  overflow: hidden;
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 35px 25px;
+  margin-top: 25px;
+}
+
+.future-visual {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  opacity: 0.045;
   pointer-events: none;
-  opacity: 0.04;
-  background-image:
-    radial-gradient(#fff 0.6px, transparent 0.6px);
-  background-size: 5px 5px;
 }
 
-.fade {
-  animation: fadeIn 1.2s ease;
+.future-content {
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.objectives {
+  text-align: left;
+  max-width: 400px;
+  margin: 25px auto;
 }
+
+.objectives div {
+  color: #AAA6A0;
+  padding: 9px 0;
+  border-bottom: 1px solid #292830;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SONG ARCHIVE
+========================================================= */
+
+.song-card {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 24px;
+  margin: 18px 0;
+  text-align: left;
+}
+
+.song-number {
+  color: #D8A7B1;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.song-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  margin: 8px 0 5px;
+}
+
+.song-artist {
+  color: #706D69;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.song-note {
+  color: #706D69;
+  font-size: 10px;
+  margin-top: 18px;
+}
+
+.listen-button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.quiz-box {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 25px;
+  margin-top: 25px;
+}
+
+.question-number {
+  color: #D8A7B1;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.question-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  line-height: 1.35;
+  margin-bottom: 25px;
+}
+
+.option-button {
+  width: 100%;
+  display: block;
+  text-align: left;
+  background: #20202A;
+  color: #F5F1EA;
+  border: 1px solid #34343D;
+  margin: 10px 0;
+}
+
+.option-button:hover {
+  border-color: #D8A7B1;
+}
+
+.quiz-message {
+  min-height: 25px;
+  margin-top: 18px;
+  color: #D8A7B1;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   VOICE FILE
+========================================================= */
+
+.video-file {
+  background: #17171F;
+  border: 1px solid #34343D;
+  padding: 25px;
+  margin-top: 25px;
+}
+
+.video-screen {
+  min-height: 260px;
+  background: #20202A;
+  border: 1px dashed #4A4852;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.play-symbol {
+  font-size: 45px;
+  margin-bottom: 12px;
+  color: #D8A7B1;
+}
+
+.video-time {
+  color: #706D69;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final-report {
+  max-width: 570px;
+  margin: 0 auto;
+  text-align: left;
+  color: #AAA6A0;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.final-report .highlight {
+  color: #F5F1EA;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.final-status {
+  margin-top: 35px;
+  color: #D8A7B1;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .screen {
+    padding: 45px 18px;
+  }
+
+  .profile-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .profile-value {
+    text-align: left;
+  }
+
+  .memory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .memory-photo {
+    min-height: 230px;
+  }
+
+  .future-box {
+    padding: 30px 18px;
+  }
+
+  .evidence-card {
+    padding: 18px;
+  }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- SCREEN 1 -->
+
+<!-- =========================================================
+     SCREEN 1 — THE ARRIVAL
+========================================================= -->
+
 <section id="screen1" class="screen active">
+
   <div class="grain"></div>
 
   <div class="content fade">
+
     <div class="label">CLASSIFIED</div>
 
-    <h1>CASE FILE<br>0609</h1>
+    <h1>
+      CASE FILE<br>
+      0609
+    </h1>
 
-    <div class="subtitle">SUBJECT: MANU</div>
+    <div class="subtitle">
+      SUBJECT: MANU
+    </div>
 
     <div class="quote">
       Some cases begin when two people meet.<br>
@@ -197,24 +662,36 @@ input:focus {
     <div class="status">
       FILE STATUS: CLASSIFIED
     </div>
+
   </div>
+
 </section>
 
 
-<!-- SCREEN 2 -->
+<!-- =========================================================
+     SCREEN 2 — SECURITY CHECK
+========================================================= -->
+
 <section id="screen2" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
+
     <div class="label">SECURITY CHECK</div>
 
-    <h2>IDENTITY VERIFICATION</h2>
+    <h2>
+      IDENTITY<br>
+      VERIFICATION
+    </h2>
 
     <div class="subtitle">
-      Before accessing this file, confirm your identity.
+      Before accessing this file,
+      confirm your identity.
     </div>
 
     <div class="password-box">
+
       <input
         id="password"
         type="password"
@@ -227,7 +704,8 @@ input:focus {
         VERIFY
       </button>
 
-      <div id="message" class="message"></div>
+      <div id="passwordMessage" class="message"></div>
+
     </div>
 
     <div class="quote">
@@ -237,21 +715,31 @@ input:focus {
     <div class="status">
       AUTHENTICATION REQUIRED
     </div>
+
   </div>
+
 </section>
 
 
-<!-- SCREEN 3 -->
+<!-- =========================================================
+     SCREEN 3 — ACCESS GRANTED
+========================================================= -->
+
 <section id="screen3" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
+
     <div class="label">ACCESS GRANTED</div>
 
-    <h2>Welcome, Manu.</h2>
+    <h2>
+      Welcome, Manu.
+    </h2>
 
     <div class="subtitle">
-      Your case has been open for quite some time.<br>
+      Your case has been open for quite some time.
+      <br>
       Today, you're finally going to see the evidence.
     </div>
 
@@ -266,48 +754,73 @@ input:focus {
     <button onclick="showScreen(4)">
       OPEN CASE →
     </button>
+
   </div>
+
 </section>
-  <!-- SCREEN 4 -->
+
+
+<!-- =========================================================
+     SCREEN 4 — THE COINCIDENCE
+========================================================= -->
+
 <section id="screen4" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">FILE DISCOVERY</div>
 
-    <h2>THE STRANGE PART</h2>
+    <h2>
+      THE COINCIDENCE
+    </h2>
 
     <div class="subtitle">
-      You had already crossed paths with me.
+
+      You had already been
+      in my life...
+
       <br><br>
 
-      Same school.<br>
-      Same place.<br>
-      Different years.
+      without actually being in it.
+
+      <br><br>
+
+      Same school.
+
       <br><br>
 
       You left after 6th class.
+      <br>
       I stayed until 10th.
+
       <br><br>
 
-      We were there at the same time once...
+      We had already existed
+      in the same place.
+
       <br><br>
 
-      And somehow, we didn't know each other.
+      And somehow...
+
+      <br><br>
+
+      we never knew each other.
+
       <br><br>
 
       Then came 11th class.
+
       <br><br>
 
-      Somehow, we ended up in the same place again.
-      <br><br>
+      And somehow,
+      our paths crossed again.
 
-      And this time, I noticed you.
     </div>
 
     <div class="status">
-      FIRST CONNECTION: FOUND
+      CONNECTION FOUND
     </div>
 
     <button onclick="showScreen(5)">
@@ -315,82 +828,145 @@ input:focus {
     </button>
 
   </div>
+
 </section>
-<!-- SCREEN 5 -->
+
+
+<!-- =========================================================
+     SCREEN 5 — FIRST PICTURE
+========================================================= -->
+
 <section id="screen5" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">EVIDENCE #001</div>
 
-    <h2>THE FIRST PICTURE</h2>
+    <h2>
+      THE FIRST PICTURE
+    </h2>
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        YOUR FIRST PHOTO TOGETHER
+      </div>
+
+      <div class="photo-caption">
+        EVIDENCE #001 — PHOTO PLACEHOLDER
+      </div>
+
+    </div>
 
     <div class="subtitle">
-      We had already crossed paths before this.
+
+      I still remember how I felt
+      in this moment.
+
       <br><br>
 
-      Same school.<br>
-      Same world.<br>
-      Somehow, we still didn't know each other.
+      A little nervous.
+
       <br><br>
 
-      Then came 11th class.
+      A little excited.
+
       <br><br>
 
-      And somewhere along the way,
-      this happened.
+      Maybe a little confused about
+      why being next to you suddenly
+      felt different.
+
       <br><br>
 
-      <strong>Our first picture together.</strong>
+      I didn't know what this picture
+      would mean to me later.
+
       <br><br>
 
-      I didn't know it then,
-      but I was looking at the beginning
-      of my favourite story.
+      At the time, it was just a picture.
+
+      <br><br>
+
+      Now...
+
+      <br><br>
+
+      I see the beginning of something
+      I didn't know I was about to
+      fall so deeply into.
+
     </div>
 
     <div class="status">
-      EVIDENCE #001 — FIRST PHOTO TOGETHER
+      EVIDENCE #001 — A MOMENT I DIDN'T KNOW I'D REMEMBER
     </div>
 
     <button onclick="showScreen(6)">
-      CONTINUE INVESTIGATION →
+      CONTINUE →
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 6 -->
+<!-- =========================================================
+     SCREEN 6 — FIRST CONVERSATION
+========================================================= -->
+
 <section id="screen6" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">EVIDENCE #002</div>
 
-    <h1>18</h1>
-
-    <h2>AUGUST</h2>
+    <h2>
+      THE FIRST CONVERSATION
+    </h2>
 
     <div class="subtitle">
-      The day I remember as the beginning
-      of our first real conversations.
+      18 AUGUST
+    </div>
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        FIRST CONVERSATION SCREENSHOT
+      </div>
+
+      <div class="photo-caption">
+        SOURCE: 18.08 — STATUS: VERIFIED
+      </div>
+
+    </div>
+
+    <div class="subtitle">
+
+      No dramatic beginning.
+
       <br><br>
 
-      Nothing about it looked like
-      the beginning of a love story.
+      No idea where this would lead.
+
       <br><br>
 
-      But somehow...
+      Just two people
+      starting a conversation...
+
       <br><br>
 
-      <strong>it was.</strong>
+      and unknowingly opening
+      a very important file.
+
     </div>
 
     <div class="status">
-      FIRST CONTACT — 18 AUGUST
+      FIRST CONTACT — 18.08
     </div>
 
     <button onclick="showScreen(7)">
@@ -398,85 +974,186 @@ input:focus {
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 7 -->
+<!-- =========================================================
+     SCREEN 7 — PROPOSAL
+========================================================= -->
+
 <section id="screen7" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
-    <div class="label">CASE STATUS UPDATED</div>
+    <div class="label">CASE UPDATE</div>
 
-    <h1>06</h1>
-
-    <h2>SEPTEMBER</h2>
+    <h2>
+      THE MOMENT<br>
+      IT CHANGED
+    </h2>
 
     <div class="subtitle">
-      Somewhere between the first conversation
-      and this day,
-      something changed.
+      06 SEPTEMBER
+    </div>
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        PROPOSAL CONVERSATION SCREENSHOT
+      </div>
+
+      <div class="photo-caption">
+        CASE FILE 0609 — ORIGINAL CONVERSATION
+      </div>
+
+    </div>
+
+    <div class="subtitle">
+
+      Somewhere between
+      "just talking"
+
       <br><br>
 
-      We stopped being
-      <br>
-      <strong>just two people who knew each other.</strong>
+      and
+
       <br><br>
 
-      And became...
+      "us"
+
       <br><br>
 
-      <strong>US.</strong>
+      there was this moment.
+
+      <br><br>
+
+      06.09
+
+      <br><br>
+
+      The day our story
+      stopped being hypothetical.
+
     </div>
 
     <div class="status">
-      06.09 — VERIFIED
+      RELATIONSHIP — OFFICIALLY VERIFIED ✓
     </div>
 
     <button onclick="showScreen(8)">
-      CONTINUE INVESTIGATION →
+      CONTINUE →
     </button>
 
   </div>
+
 </section>
-<!-- SCREEN 8 -->
+
+
+<!-- =========================================================
+     SCREEN 8 — SUBJECT PROFILE
+========================================================= -->
+
 <section id="screen8" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">SUBJECT PROFILE</div>
 
-    <h2>THE SUBJECT</h2>
+    <h2>
+      MANJEET
+    </h2>
 
-    <div class="subtitle">
-      <strong>OFFICIAL FAMILY NAME</strong><br>
-      Manu
-      <br><br>
+    <div class="profile-box">
 
-      <strong>MY NAME FOR HIM</strong><br>
-      Chhotu
-      <br><br>
+      <div class="profile-row">
+        <div class="profile-label">
+          OFFICIAL FAMILY NAME
+        </div>
 
-      <strong>HIS NAME FOR ME</strong><br>
-      Butki
-      <br><br>
+        <div class="profile-value">
+          Manjeet
+        </div>
+      </div>
 
-      <strong>STATUS</strong><br>
-      Taken
-      <br><br>
+      <div class="profile-row">
+        <div class="profile-label">
+          FAMILY NICKNAME
+        </div>
 
-      <strong>CURRENT MISSION</strong><br>
-      Air Force Preparation
-      <br><br>
+        <div class="profile-value">
+          Manu
+        </div>
+      </div>
 
-      <strong>THREAT LEVEL</strong><br>
-      Depends on how much he annoys Butki.
+      <div class="profile-row">
+        <div class="profile-label">
+          MY NAME FOR HIM
+        </div>
+
+        <div class="profile-value">
+          Chhotu
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          HIS NAME FOR ME
+        </div>
+
+        <div class="profile-value">
+          Butki
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          CURRENT STATUS
+        </div>
+
+        <div class="profile-value">
+          Taken
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          CURRENT MISSION
+        </div>
+
+        <div class="profile-value">
+          Air Force Preparation
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          KNOWN WEAKNESS
+        </div>
+
+        <div class="profile-value">
+          Butki
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          THREAT LEVEL
+        </div>
+
+        <div class="profile-value">
+          Depends on how much he annoys Butki.
+        </div>
+      </div>
+
     </div>
 
     <div class="status">
-      SUBJECT PROFILE — CONFIDENTIAL
+      PROFILE STATUS: CONFIDENTIAL
     </div>
 
     <button onclick="showScreen(9)">
@@ -484,52 +1161,162 @@ input:focus {
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 9 -->
+<!-- =========================================================
+     SCREEN 9 — BEHAVIOURAL EVIDENCE
+========================================================= -->
+
 <section id="screen9" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">BEHAVIOURAL EVIDENCE</div>
 
-    <h2>THINGS I NOTICE</h2>
+    <h2>
+      THINGS I NOTICE
+    </h2>
 
-    <div class="subtitle">
 
-      <strong>01 — THE FUMBLING INCIDENTS</strong><br>
-      You imitate my fumbled words
-      just to annoy me.
-      <br>
-      <span>STATUS: ANNOYING 😂</span>
+    <!-- VIDEO CALL PLACEHOLDER -->
 
-      <br><br><br>
+    <div class="photo-frame">
 
-      <strong>02 — THE CALM RESPONSE</strong><br>
-      Somehow, even when I'm angry,
-      you stay calm and try to calm me down.
-      <br>
-      <span>UNUSUAL BEHAVIOUR DETECTED</span>
+      <div class="photo-placeholder">
+        VIDEO CALL SCREENSHOT #01
+      </div>
 
-      <br><br><br>
-
-      <strong>03 — THE PLAN CANCELLATIONS</strong><br>
-      Sometimes you change your own plans
-      just to make me happy or spend time with me.
-      <br>
-      <span>EVIDENCE OF LOVE: CONFIRMED</span>
-
-      <br><br><br>
-
-      <strong>04 — THE EXPLANATION VIDEOS</strong><br>
-      When I'm upset, you make a video
-      explaining the things I'm upset about.
-      <br>
-      <span>PATIENT BOYFRIEND DETECTED</span>
+      <div class="photo-caption">
+        EVIDENCE IMAGE — PLACEHOLDER
+      </div>
 
     </div>
+
+
+    <div class="evidence-card">
+
+      <div class="evidence-number">
+        EVIDENCE 01
+      </div>
+
+      <h3>
+        THE FUMBLING INCIDENTS
+      </h3>
+
+      <p>
+        You imitate my fumbled words
+        just to annoy me.
+      </p>
+
+      <div class="evidence-status">
+        STATUS: ANNOYING 😂
+      </div>
+
+    </div>
+
+
+    <!-- SECOND VIDEO CALL PLACEHOLDER -->
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        VIDEO CALL SCREENSHOT #02
+      </div>
+
+      <div class="photo-caption">
+        EVIDENCE IMAGE — PLACEHOLDER
+      </div>
+
+    </div>
+
+
+    <div class="evidence-card">
+
+      <div class="evidence-number">
+        EVIDENCE 02
+      </div>
+
+      <h3>
+        THE CALM RESPONSE
+      </h3>
+
+      <p>
+        Somehow, even when I'm angry,
+        you stay calm and try to
+        calm me down.
+      </p>
+
+      <div class="evidence-status">
+        UNUSUAL BEHAVIOUR DETECTED
+      </div>
+
+    </div>
+
+
+    <div class="evidence-card">
+
+      <div class="evidence-number">
+        EVIDENCE 03
+      </div>
+
+      <h3>
+        THE PLAN CANCELLATIONS
+      </h3>
+
+      <p>
+        Sometimes you change your own
+        plans just to make me happy
+        or spend time with me.
+      </p>
+
+      <div class="evidence-status">
+        EVIDENCE OF LOVE: CONFIRMED ✓
+      </div>
+
+    </div>
+
+
+    <!-- THIRD VIDEO CALL PLACEHOLDER -->
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        VIDEO CALL SCREENSHOT #03
+      </div>
+
+      <div class="photo-caption">
+        EVIDENCE IMAGE — PLACEHOLDER
+      </div>
+
+    </div>
+
+
+    <div class="evidence-card">
+
+      <div class="evidence-number">
+        EVIDENCE 04
+      </div>
+
+      <h3>
+        THE EXPLANATION VIDEOS
+      </h3>
+
+      <p>
+        When I'm upset, you make a video
+        explaining the things I'm upset
+        about.
+      </p>
+
+      <div class="evidence-status">
+        PATIENT BOYFRIEND DETECTED
+      </div>
+
+    </div>
+
 
     <div class="status">
       I NOTICE THESE THINGS, CHHOTU.
@@ -540,87 +1327,207 @@ input:focus {
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 10 -->
+<!-- =========================================================
+     SCREEN 10 — MEMORY ARCHIVE
+========================================================= -->
+
 <section id="screen10" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">MEMORY ARCHIVE</div>
 
-    <h2>THE MEMORIES</h2>
+    <h2>
+      RECOVERED FILES
+    </h2>
 
-    <div class="subtitle">
-      Too many memories to fit into one case file.
-      <br><br>
 
-      <strong>ARCHIVE #01</strong><br>
-      Our 11th class trip.
-      <br><br>
+    <div class="memory-grid">
 
-      <strong>ARCHIVE #02</strong><br>
-      Our 12th class trip.
-      <br><br>
 
-      <strong>ARCHIVE #03</strong><br>
-      The moments that still make me laugh.
-      <br><br>
+      <div class="memory-card">
 
-      <strong>ARCHIVE #04</strong><br>
-      The moments I never want to forget.
-      <br><br>
+        <div class="memory-photo">
+          12TH CLASS TRIP PHOTO
+        </div>
 
-      And probably a few that should
-      remain classified forever. 😂
+        <div class="memory-title">
+          ARCHIVE #01
+        </div>
+
+      </div>
+
+
+      <div class="memory-card">
+
+        <div class="memory-photo">
+          MEMORY PHOTO #02
+        </div>
+
+        <div class="memory-title">
+          ARCHIVE #02
+        </div>
+
+      </div>
+
+
+      <div class="memory-card">
+
+        <div class="memory-photo">
+          MEMORY PHOTO #03
+        </div>
+
+        <div class="memory-title">
+          ARCHIVE #03
+        </div>
+
+      </div>
+
+
+      <div class="memory-card">
+
+        <div class="memory-photo">
+          MEMORY PHOTO #04
+        </div>
+
+        <div class="memory-title">
+          ARCHIVE #04
+        </div>
+
+      </div>
+
+
+      <div class="memory-card">
+
+        <div class="memory-photo">
+          MEMORY PHOTO #05
+        </div>
+
+        <div class="memory-title">
+          ARCHIVE #05
+        </div>
+
+      </div>
+
+
     </div>
 
+
+    <div class="subtitle">
+
+      Some memories don't need
+      a dramatic story.
+
+      <br><br>
+
+      They're important simply
+      because they happened.
+
+    </div>
+
+
     <div class="status">
-      MEMORY COUNT — CLASSIFIED
+      MEMORY COUNT: CLASSIFIED
     </div>
 
     <button onclick="showScreen(11)">
-      CONTINUE INVESTIGATION →
+      CONTINUE →
     </button>
 
   </div>
+
 </section>
- <!-- SCREEN 11 -->
+
+
+<!-- =========================================================
+     SCREEN 11 — THE DISTANCE
+========================================================= -->
+
 <section id="screen11" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
-    <div class="label">CHAPTER: THE DISTANCE</div>
+    <div class="label">CURRENT CHAPTER</div>
 
-    <h2>NOT DISTANCE IN KILOMETRES.</h2>
+    <h2>
+      THE DISTANCE
+    </h2>
 
-    <h1>TIME.</h1>
+    <div class="quote">
+      NOT DISTANCE IN KM.
+      <br>
+      TIME.
+    </div>
+
+
+    <!-- BOOK PHOTO -->
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        PHOTO OF HIS BOOKS
+      </div>
+
+      <div class="photo-caption">
+        CURRENT MISSION — PREPARATION
+      </div>
+
+    </div>
+
+
+    <!-- AIR FORCE AIRCRAFT -->
+
+    <div class="photo-frame">
+
+      <div class="photo-placeholder">
+        AIR FORCE AIRCRAFT VISUAL
+      </div>
+
+      <div class="photo-caption">
+        THE DREAM
+      </div>
+
+    </div>
+
 
     <div class="subtitle">
-      Things changed when you started preparing
-      for your Air Force exam.
+
+      Things changed when you started
+      preparing for your Air Force exam.
+
       <br><br>
 
-      Your dream started demanding more
-      of your time, your energy,
+      Your dream started demanding
+      more of your time,
+      your energy,
       and your attention.
+
       <br><br>
 
       You told me beforehand
       that there would be days
-      when you wouldn't be able to talk much.
+      when you couldn't talk much.
+
       <br><br>
 
       I thought I understood.
+
       <br><br>
 
       But honestly...
+
       <br><br>
 
-      <strong>I didn't always handle it well.</strong>
+      I didn't always handle it well.
+
     </div>
 
     <div class="status">
@@ -632,49 +1539,74 @@ input:focus {
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 12 -->
+<!-- =========================================================
+     SCREEN 12 — PERSONAL STATEMENT
+========================================================= -->
+
 <section id="screen12" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">PERSONAL STATEMENT</div>
 
-    <h2>THIS ONE IS FROM ME.</h2>
+    <h2>
+      THIS ONE IS FROM ME.
+    </h2>
 
     <div class="subtitle">
-      I'm sorry for the times I've taken
-      my frustration out on you.
+
+      I'm sorry for the times
+      I've taken my frustration
+      out on you.
+
       <br><br>
 
-      Sometimes I miss you and want your attention,
-      and instead of telling you that properly,
-      the anger comes out as rude words.
+      Sometimes I miss you
+      and want your attention...
+
+      <br><br>
+
+      and instead of saying that
+      properly, the anger comes out.
+
       <br><br>
 
       I know that's not fair to you.
+
       <br><br>
 
       You've been patient with me
-      even when I've made things difficult.
+      even when I've made things
+      difficult.
+
       <br><br>
 
-      I don't want to take that patience
-      for granted.
+      I don't want to take that
+      patience for granted.
+
       <br><br>
 
-      <strong>I'M WORKING ON IT.</strong>
+      <strong style="color:#F5F1EA;">
+        I'M WORKING ON IT.
+      </strong>
+
       <br><br>
 
-      I don't want you to have to choose
-      between your dream and me.
+      I don't want you to have to
+      choose between your dream
+      and me.
+
       <br><br>
 
-      I want to learn how to support you
-      while you chase it.
+      I want to learn how to support
+      you while you chase it.
+
     </div>
 
     <div class="status">
@@ -686,388 +1618,926 @@ input:focus {
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 13 -->
+<!-- =========================================================
+     SCREEN 13 — FUTURE
+========================================================= -->
+
 <section id="screen13" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">PROJECT: OUR FUTURE</div>
 
-    <h2>MISSION OBJECTIVES</h2>
+    <h2>
+      MISSION OBJECTIVES
+    </h2>
 
-    <div class="subtitle">
-      <strong>PRIMARY OBJECTIVE</strong>
-      <br>
-      STAY TOGETHER
-      <br><br>
 
-      ☑ Be happy
-      <br>
-      ☑ Take lots of trips
-      <br>
-      ☑ Make ridiculous memories
-      <br>
-      ☑ Build a life together
-      <br>
-      ☑ Someday have our daughter
-      <br>
-      ☑ Keep annoying each other
-      <br>
-      ☑ Keep calling you Chhotu
-      <br>
-      ☑ Keep being called Butki
+    <div class="future-box">
+
+      <div class="future-visual">
+        👨‍👩‍👧
+      </div>
+
+      <div class="future-content">
+
+        <div class="quote">
+          PRIMARY OBJECTIVE
+        </div>
+
+        <h2 style="font-size:38px;">
+          STAY TOGETHER
+        </h2>
+
+        <div class="objectives">
+
+          <div>☑ Be happy</div>
+
+          <div>☑ Take lots of trips</div>
+
+          <div>☑ Make ridiculous memories</div>
+
+          <div>☑ Build a life together</div>
+
+          <div>☑ Someday have our daughter</div>
+
+          <div>☑ Keep annoying each other</div>
+
+          <div>☑ Keep calling you Chhotu</div>
+
+          <div>☑ Keep being called Butki</div>
+
+        </div>
+
+      </div>
+
     </div>
+
 
     <div class="status">
       MISSION STATUS — IN PROGRESS
     </div>
 
-    <button onclick="showScreen(14); startQuiz()">
+    <button onclick="showScreen(14)">
+      OPEN AUDIO ARCHIVE →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN 14 — SONG ARCHIVE
+========================================================= -->
+
+<section id="screen14" class="screen">
+
+  <div class="grain"></div>
+
+  <div class="content fade">
+
+    <div class="label">AUDIO ARCHIVE</div>
+
+    <h2>
+      SONGS I KEEP WITH US
+    </h2>
+
+    <div class="quote">
+      Some songs just feel
+      a little more like you.
+    </div>
+
+
+    <!-- SONG 1 -->
+
+    <div class="song-card">
+
+      <div class="song-number">
+        AUDIO FILE #01
+      </div>
+
+      <div class="song-title">
+        SONG TITLE
+      </div>
+
+      <div class="song-artist">
+        ARTIST
+      </div>
+
+      <button
+        class="listen-button secondary-button"
+        onclick="alert('Song link will be added later.')"
+      >
+        ▶ LISTEN
+      </button>
+
+    </div>
+
+
+    <!-- SONG 2 -->
+
+    <div class="song-card">
+
+      <div class="song-number">
+        AUDIO FILE #02
+      </div>
+
+      <div class="song-title">
+        SONG TITLE
+      </div>
+
+      <div class="song-artist">
+        ARTIST
+      </div>
+
+      <button
+        class="listen-button secondary-button"
+        onclick="alert('Song link will be added later.')"
+      >
+        ▶ LISTEN
+      </button>
+
+    </div>
+
+
+    <!-- SONG 3 -->
+
+    <div class="song-card">
+
+      <div class="song-number">
+        AUDIO FILE #03
+      </div>
+
+      <div class="song-title">
+        SONG TITLE
+      </div>
+
+      <div class="song-artist">
+        ARTIST
+      </div>
+
+      <button
+        class="listen-button secondary-button"
+        onclick="alert('Song link will be added later.')"
+      >
+        ▶ LISTEN
+      </button>
+
+    </div>
+
+
+    <div class="status">
+      PRIVATE AUDIO ARCHIVE
+    </div>
+
+    <button onclick="showScreen(15)">
       PROCEED TO SECURITY GAME →
     </button>
 
   </div>
+
 </section>
- <!-- SCREEN 14 -->
-<section id="screen14" class="screen">
+
+
+<!-- =========================================================
+     SCREEN 15 — SECURITY GAME
+========================================================= -->
+
+<section id="screen15" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
     <div class="label">SECURITY GAME</div>
 
-    <h2>IDENTITY VERIFICATION</h2>
+    <h2>
+      PROVE YOU REMEMBER
+    </h2>
 
-    <div id="quiz">
+    <div class="quiz-box">
 
-      <div class="status" id="questionNumber">
+      <div
+        id="questionNumber"
+        class="question-number"
+      >
         QUESTION 01 / 05
       </div>
 
-      <div class="subtitle" id="questionText">
-        When was the first time we talked on a video call?
+      <div
+        id="questionText"
+        class="question-text"
+      >
       </div>
 
       <div id="options"></div>
 
-      <div id="quizMessage" class="message"></div>
+      <div
+        id="quizMessage"
+        class="quiz-message"
+      >
+      </div>
 
     </div>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 15 -->
-<section id="screen15" class="screen">
-  <div class="grain"></div>
+<!-- =========================================================
+     SCREEN 16 — VOICE FILE
+========================================================= -->
 
-  <div class="content fade">
-
-    <div class="label">VIDEO FILE 0609</div>
-
-    <h2>CONFIDENTIAL</h2>
-
-    <div class="subtitle">
-      Created specifically for Manu.
-      <br><br>
-
-      Some things are easier to say
-      when memories are playing beside them.
-    </div>
-
-    <div class="status">
-      VIDEO FILE — CLASSIFIED
-    </div>
-
-    <button onclick="showScreen(16)">
-      PLAY VIDEO →
-    </button>
-
-  </div>
-</section>
-
-
-<!-- SCREEN 16 -->
 <section id="screen16" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
-    <div class="label">FINAL REPORT</div>
+    <div class="label">
+      AUDIO / VIDEO FILE
+    </div>
 
-    <h2>CASE FILE: 0609</h2>
+    <h2>
+      0609
+    </h2>
 
-    <div class="subtitle">
+    <div class="quote">
+      WHAT I COULDN'T
+      <br>
+      PUT IN THE CASE FILE
+    </div>
 
-      To the boy this entire ridiculous
-      investigation was about...
-      <br><br>
 
-      I made this because I wanted you
-      to have something that was completely ours.
-      <br><br>
+    <div class="video-file">
 
-      From the same school we somehow
-      didn't notice each other in,
-      to 11th class,
-      to the first conversations,
-      to everything that came after...
-      <br><br>
+      <div class="video-screen">
 
-      Somehow, all those little moments
-      became <strong>us.</strong>
-      <br><br>
+        <div class="play-symbol">
+          ▶
+        </div>
 
-      I love the way you stay patient with me.
-      I love the little things you do
-      that you probably don't even realize
-      I notice.
-      <br><br>
+        <strong>
+          YOUR VOICE-RECORDING VIDEO
+        </strong>
 
-      And I'm sorry for the times
-      I let missing you turn into anger.
-      <br><br>
+        <div class="video-time">
+          VIDEO PLACEHOLDER
+        </div>
 
-      I don't want you to choose
-      between your dream and me.
-      <br><br>
+      </div>
 
-      I want to be someone who can
-      support you while you chase it.
-      <br><br>
-
-      And somewhere ahead,
-      I hope there's a life full of trips,
-      ridiculous memories,
-      happiness,
-      and our little family.
-      <br><br>
-
-      <strong>Happy Boyfriend's Day, Chhotu.</strong>
-      <br><br>
-
-      Love,<br>
-      Your Butki ❤️
+      <button
+        onclick="alert('Your voice video will be added here later.')"
+      >
+        PLAY FILE
+      </button>
 
     </div>
 
+
     <div class="status">
-      REPORT COMPLETE
+      RECORDED FOR ONE PERSON — MANU
     </div>
 
     <button onclick="showScreen(17)">
+      OPEN FINAL REPORT →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN 17 — FINAL REPORT
+========================================================= -->
+
+<section id="screen17" class="screen">
+
+  <div class="grain"></div>
+
+  <div class="content fade">
+
+    <div class="label">
+      FINAL REPORT
+    </div>
+
+    <h2>
+      CASE FILE: 0609
+    </h2>
+
+
+    <div class="final-report">
+
+      <p>
+        <strong style="color:#F5F1EA;">
+          TO MANU,
+        </strong>
+      </p>
+
+      <p>
+        I made this because I wanted
+        you to have something that
+        was completely ours.
+      </p>
+
+      <p>
+        Not perfect.
+      </p>
+
+      <p>
+        Not serious all the time.
+      </p>
+
+      <p>
+        Not always easy.
+      </p>
+
+      <p class="highlight">
+        Just...
+        <br>
+        us.
+      </p>
+
+      <p>
+        Thank you for being part of
+        so many versions of me.
+      </p>
+
+      <p>
+        The annoying one.
+        <br>
+        The emotional one.
+        <br>
+        The happy one.
+        <br>
+        The one who misses you
+        way too much.
+      </p>
+
+      <p>
+        And somehow,
+        you still stayed.
+      </p>
+
+    </div>
+
+
+    <div class="final-status">
+      CASE STATUS: IRREPLACEABLE
+    </div>
+
+
+    <button onclick="showScreen(18)">
       CLOSE CASE →
     </button>
 
   </div>
+
 </section>
 
 
-<!-- SCREEN 17 -->
-<section id="screen17" class="screen">
+<!-- =========================================================
+     SCREEN 18 — FINAL ENDING
+========================================================= -->
+
+<section id="screen18" class="screen">
+
   <div class="grain"></div>
 
   <div class="content fade">
 
-    <div class="label">CASE STATUS</div>
+    <div class="label">
+      CASE STATUS
+    </div>
 
-    <div class="subtitle">
 
-      FIRST CONTACT — CONFIRMED
-      <br><br>
+    <div class="profile-box"
+         style="text-align:center;">
 
-      RELATIONSHIP — CONFIRMED
-      <br><br>
+      <div class="profile-row">
+        <div class="profile-label">
+          FIRST CONTACT
+        </div>
 
-      MEMORIES — TOO MANY
-      <br><br>
+        <div class="profile-value">
+          CONFIRMED ✓
+        </div>
+      </div>
 
-      ARGUMENTS — CLASSIFIED
-      <br><br>
+      <div class="profile-row">
+        <div class="profile-label">
+          RELATIONSHIP
+        </div>
 
-      LOVE — ONGOING
-      <br><br>
+        <div class="profile-value">
+          CONFIRMED ✓
+        </div>
+      </div>
 
-      FUTURE — UNDER INVESTIGATION
+      <div class="profile-row">
+        <div class="profile-label">
+          MEMORIES
+        </div>
+
+        <div class="profile-value">
+          TOO MANY
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          ARGUMENTS
+        </div>
+
+        <div class="profile-value">
+          CLASSIFIED
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          LOVE
+        </div>
+
+        <div class="profile-value">
+          ONGOING
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">
+          FUTURE
+        </div>
+
+        <div class="profile-value">
+          UNDER INVESTIGATION
+        </div>
+      </div>
 
     </div>
 
-    <h1>CASE CLOSED.</h1>
 
-    <div class="quote">
-      ...probably not.
+    <h2 style="margin-top:45px;">
+      CASE CLOSED.
+    </h2>
+
+
+    <div
+      id="endingText"
+      class="quote"
+      style="margin-top:35px;"
+    >
+      ...
     </div>
 
-    <div class="status">
-      TO BE CONTINUED.
-    </div>
 
-    <div class="quote">
-      Some stories begin when two people meet.<br><br>
-      Ours apparently began years before that.
-      <br><br>
-      Happy Boyfriend's Day, Chhotu.
-      <br>
-      — Butki ❤️
+    <button
+      id="endingRevealButton"
+      onclick="revealEnding()"
+    >
+      CONTINUE
+    </button>
+
+
+    <div
+      id="finalMessage"
+      style="
+        display:none;
+        animation:fadeIn 1s ease;
+      "
+    >
+
+      <h2 style="font-size:38px;">
+        PROBABLY NOT.
+      </h2>
+
+      <div class="quote">
+        TO BE CONTINUED.
+      </div>
+
+      <div
+        style="
+          color:#F5F1EA;
+          font-family:Georgia,serif;
+          font-size:26px;
+          line-height:1.5;
+          margin-top:35px;
+        "
+      >
+        ONE LAST THING...
+      </div>
+
+      <div
+        style="
+          color:#D8A7B1;
+          font-family:Georgia,serif;
+          font-size:34px;
+          margin-top:25px;
+        "
+      >
+        I LOVE YOU, CHHOTU.
+      </div>
+
+      <div
+        style="
+          color:#AAA6A0;
+          margin-top:25px;
+          font-size:14px;
+          letter-spacing:1px;
+        "
+      >
+        HAPPY BOYFRIEND'S DAY ❤️
+      </div>
+
+      <div
+        style="
+          color:#AAA6A0;
+          margin-top:12px;
+          font-family:Georgia,serif;
+          font-size:20px;
+          font-style:italic;
+        "
+      >
+        — Butki
+      </div>
+
+      <div class="status">
+        END OF TRANSMISSION
+      </div>
+
     </div>
 
   </div>
+
 </section>
-  <script>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+========================================================= */
+
 function showScreen(number) {
+
   document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
   });
 
-  document.getElementById("screen" + number).classList.add("active");
+  const target =
+    document.getElementById("screen" + number);
 
-  window.scrollTo(0, 0);
+  if (target) {
+
+    target.classList.add("active");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
 }
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
 
 function checkPassword() {
-  const password = document.getElementById("password").value;
-  const message = document.getElementById("message");
+
+  const password =
+    document.getElementById("password").value;
+
+  const message =
+    document.getElementById("passwordMessage");
+
 
   if (password === "0609") {
-    message.textContent = "✓ IDENTITY VERIFIED";
+
+    message.textContent =
+      "✓ IDENTITY VERIFIED";
+
     setTimeout(() => {
       showScreen(3);
-    }, 700);
-  } else {
-    message.textContent = "✕ ACCESS DENIED — TRY AGAIN";
+    }, 800);
+
   }
+
+  else {
+
+    message.textContent =
+      "✕ ACCESS DENIED — TRY AGAIN";
+
+  }
+
 }
+
+
+/* Allow ENTER key for password */
+
+document
+  .getElementById("password")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      checkPassword();
+    }
+
+  });
+
+
+/* =========================================================
+   QUIZ QUESTIONS
+========================================================= */
+
 const quizQuestions = [
+
   {
-    question: "When was the first time we talked on a video call?",
+    question:
+      "When was the first time we talked on a video call?",
+
     options: [
       "18 September",
       "20 September",
       "22 September",
       "25 September"
     ],
+
     answer: 1
   },
 
+
   {
-    question: "What was our first physical touch?",
+    question:
+      "What was our first physical touch?",
+
     options: [
       "A hug",
       "A high-five",
       "Holding hands",
       "Touching shoulders"
     ],
+
     answer: 2
   },
 
+
   {
-    question: "What usually makes me jealous?",
+    question:
+      "What usually makes me jealous?",
+
     options: [
       "When you don't reply to me quickly",
+
       "When you talk to other girls or give more priority to other people",
+
       "When you spend too much time studying",
+
       "When you cancel our plans"
     ],
+
     answer: 1
   },
 
+
   {
-    question: "What was our combined name?",
+    question:
+      "What was our combined name?",
+
     options: [
       "Pranjeet",
       "Prajeet",
       "Pragjeet",
       "Manrati"
     ],
+
     answer: 1
   },
 
+
   {
-    question: "What was the colour of the flowers you gave me for the first time?",
+    question:
+      "What was the colour of the flowers you gave me for the first time?",
+
     options: [
       "Red",
       "White",
       "Pink",
       "Yellow"
     ],
+
     answer: 2
   }
+
 ];
+
 
 let currentQuestion = 0;
 
+
+/* =========================================================
+   START QUIZ
+========================================================= */
+
 function startQuiz() {
+
   currentQuestion = 0;
+
   loadQuestion();
+
 }
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
 
 function loadQuestion() {
-  const question = quizQuestions[currentQuestion];
 
-  document.getElementById("questionNumber").textContent =
+  const question =
+    quizQuestions[currentQuestion];
+
+
+  document.getElementById(
+    "questionNumber"
+  ).textContent =
     `QUESTION ${String(currentQuestion + 1).padStart(2, "0")} / 05`;
 
-  document.getElementById("questionText").textContent =
+
+  document.getElementById(
+    "questionText"
+  ).textContent =
     question.question;
 
-  const optionsContainer = document.getElementById("options");
+
+  const optionsContainer =
+    document.getElementById("options");
+
+
   optionsContainer.innerHTML = "";
 
-  question.options.forEach((option, index) => {
-    const button = document.createElement("button");
 
-    button.textContent =
-      `${String.fromCharCode(65 + index)}. ${option}`;
+  question.options.forEach(
+    (option, index) => {
 
-    button.style.display = "block";
-    button.style.width = "100%";
-    button.style.margin = "10px 0";
+      const button =
+        document.createElement("button");
 
-    button.onclick = () => checkQuizAnswer(index);
 
-    optionsContainer.appendChild(button);
-  });
+      button.className =
+        "option-button";
 
-  document.getElementById("quizMessage").textContent = "";
+
+      button.textContent =
+        `${String.fromCharCode(65 + index)}. ${option}`;
+
+
+      button.onclick = () => {
+
+        checkQuizAnswer(index);
+
+      };
+
+
+      optionsContainer.appendChild(button);
+
+    }
+  );
+
+
+  document.getElementById(
+    "quizMessage"
+  ).textContent = "";
+
 }
 
+
+/* =========================================================
+   CHECK QUIZ ANSWER
+========================================================= */
+
 function checkQuizAnswer(selectedAnswer) {
-  const message = document.getElementById("quizMessage");
 
-  if (selectedAnswer === quizQuestions[currentQuestion].answer) {
+  const message =
+    document.getElementById("quizMessage");
 
-    message.textContent = "✓ VERIFICATION ACCEPTED";
+
+  if (
+    selectedAnswer ===
+    quizQuestions[currentQuestion].answer
+  ) {
+
+    message.textContent =
+      "✓ VERIFICATION ACCEPTED";
+
 
     setTimeout(() => {
 
       currentQuestion++;
 
-      if (currentQuestion < quizQuestions.length) {
+
+      if (
+        currentQuestion <
+        quizQuestions.length
+      ) {
+
         loadQuestion();
-      } else {
+
+      }
+
+      else {
+
         message.textContent =
           "✓ IDENTITY VERIFIED — ALL EVIDENCE MATCHED";
 
+
         setTimeout(() => {
-          showScreen(15);
+
+          showScreen(16);
+
         }, 900);
+
       }
 
     }, 700);
 
-  } else {
+  }
+
+  else {
 
     message.textContent =
       "✕ ACCESS DENIED — TRY AGAIN";
 
   }
-    }
-  </script>
+
+}
+
+
+/* =========================================================
+   START QUIZ WHEN SCREEN 15 OPENS
+========================================================= */
+
+const originalShowScreen =
+  showScreen;
+
+
+showScreen = function(number) {
+
+  originalShowScreen(number);
+
+
+  if (number === 15) {
+
+    startQuiz();
+
+  }
+
+};
+
+
+/* =========================================================
+   FINAL ENDING REVEAL
+========================================================= */
+
+function revealEnding() {
+
+  const button =
+    document.getElementById(
+      "endingRevealButton"
+    );
+
+  const finalMessage =
+    document.getElementById(
+      "finalMessage"
+    );
+
+
+  button.style.display = "none";
+
+  finalMessage.style.display = "block";
+
+}
+
+
+</script>
 
 </body>
 </html>
