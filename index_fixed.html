@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0D0D12">
+<title>The Case of Us</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0D0D12;color:#F5F1EA}
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(216,167,177,.07),transparent 34%),
+    #0D0D12;
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:999;
+  opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+.screen{
+  display:none;
+  min-height:100svh;
+  width:100%;
+  padding:28px 18px 34px;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.screen.active{display:flex;animation:screenIn .45s ease both}
+.screen-inner{
+  width:min(100%,760px);
+  margin:0 auto;
+  position:relative;
+}
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(34px,9vw,66px);line-height:.98;letter-spacing:-.02em}
+h2{font-size:clamp(28px,7vw,48px);line-height:1.03}
+h3{font-size:20px}
+p{line-height:1.7}
+.mono{
+  font-family:"Courier New",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.tiny{font-size:10px;color:#706D69}
+.label{font:10px "Courier New",monospace;letter-spacing:.16em;color:#D8A7B1;text-transform:uppercase}
+.muted{color:#AAA6A0}
+.dim{color:#706D69}
+.pink{color:#D8A7B1}
+.red{color:#8F4B55}
+.rule{height:1px;background:#34343D;margin:24px 0}
+.center{text-align:center}
+.right{text-align:right}
+
+.btn{
+  appearance:none;border:1px solid #8F4B55;background:transparent;color:#F5F1EA;
+  padding:13px 17px;border-radius:4px;cursor:pointer;
+  font:11px "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase;
+  transition:.2s ease;
+}
+.btn:hover{background:#8F4B55;color:#fff}
+.btn.secondary{border-color:#34343D}
+.btn.full{width:100%}
+
+.card{
+  background:#17171F;border:1px solid #34343D;border-radius:7px;
+  padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.22);
+}
+.card.light{background:#20202A}
+.case-top{
+  display:flex;justify-content:space-between;gap:12px;align-items:center;
+  margin-bottom:28px;
+}
+.case-id{font:10px "Courier New",monospace;color:#706D69}
+.kicker{font:11px "Courier New",monospace;color:#D8A7B1;letter-spacing:.18em;text-transform:uppercase}
+.big-number{font:clamp(70px,20vw,150px);line-height:.75;color:#F5F1EA;font-family:Georgia,serif}
+.quote{font:Georgia,serif;font-size:clamp(20px,5vw,30px);line-height:1.45}
+.spacer{height:18px}
+
+.progress{height:5px;background:#20202A;border-radius:10px;overflow:hidden}
+.progress span{display:block;height:100%;background:#D8A7B1;width:78%}
+
+input.password{
+  width:100%;background:#0D0D12;border:1px solid #34343D;color:#F5F1EA;
+  padding:15px;border-radius:4px;outline:none;font:16px "Courier New",monospace;
+  letter-spacing:.25em;text-align:center;
+}
+.status{
+  min-height:24px;margin-top:12px;font:11px "Courier New",monospace;
+  letter-spacing:.08em;color:#AAA6A0;
+}
+
+.media-frame{
+  border:1px solid #34343D;background:#0D0D12;border-radius:6px;
+  padding:7px;overflow:hidden;position:relative;
+}
+.media-frame img,.media-frame video{
+  display:block;width:100%;max-width:100%;border-radius:3px;
+}
+.media-frame.contain img{object-fit:contain;max-height:58vh}
+.media-frame.cover img{object-fit:cover}
+.photo-main{max-height:61vh;object-fit:contain;background:#0D0D12}
+.caption{
+  margin-top:9px;font:9px "Courier New",monospace;color:#706D69;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.evidence{
+  border-left:2px solid #8F4B55;padding:13px 15px;margin:13px 0;background:#17171F;
+}
+.evidence strong{display:block;font:12px "Courier New",monospace;letter-spacing:.08em;margin-bottom:6px}
+.evidence p{margin:0;color:#AAA6A0;font-size:14px;line-height:1.6}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.profile-row{
+  display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #34343D;
+  padding:12px 0;gap:12px;font-size:13px;
+}
+.profile-row span:first-child{color:#706D69;font:10px "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
+
+.next{
+  margin-top:25px;display:flex;justify-content:flex-end;
+}
+.back{
+  position:absolute;top:-5px;left:0;font:9px "Courier New",monospace;color:#706D69;
+  cursor:pointer;text-transform:uppercase;letter-spacing:.1em;
+}
+
+/* Memory archive — intentionally messy overlapping pile */
+.memory-board{
+  position:relative;width:100%;height:620px;margin-top:18px;overflow:hidden;
+  border:1px solid #34343D;background:
+    radial-gradient(circle at 20% 15%,rgba(216,167,177,.06),transparent 25%),
+    #111117;border-radius:8px;
+}
+.memory-board:before{
+  content:"RECOVERED / UNSTABLE ORDER";
+  position:absolute;top:14px;left:15px;color:#706D69;
+  font:9px "Courier New",monospace;letter-spacing:.14em;z-index:1;
+}
+.memory-photo{
+  position:absolute;background:#F0ECE5;padding:7px 7px 20px;
+  box-shadow:0 20px 35px rgba(0,0,0,.5);
+  width:42%;max-width:250px;z-index:2;
+  transition:transform .25s ease;
+}
+.memory-photo img{
+  display:block;width:100%;height:225px;object-fit:cover;
+  filter:saturate(.88) contrast(1.02);
+}
+.memory-photo:after{
+  content:"";position:absolute;left:50%;bottom:6px;width:5px;height:5px;
+  background:#8F4B55;border-radius:50%;transform:translateX(-50%);
+}
+.m1{left:6%;top:8%;transform:rotate(-6deg);z-index:3}
+.m2{right:5%;top:13%;transform:rotate(7deg);z-index:4}
+.m3{left:29%;top:25%;transform:rotate(3deg);z-index:6}
+.m4{right:17%;top:39%;transform:rotate(-8deg);z-index:5}
+.m5{left:7%;top:50%;transform:rotate(8deg);z-index:7}
+.m6{left:37%;top:61%;transform:rotate(-5deg);z-index:8}
+.pin{
+  position:absolute;width:9px;height:9px;border-radius:50%;background:#D8A7B1;
+  box-shadow:0 2px 8px #000;z-index:20;
+}
+.pin.p1{left:16%;top:10%}.pin.p2{right:15%;top:14%}.pin.p3{left:50%;top:26%}
+.pin.p4{right:25%;top:40%}.pin.p5{left:17%;top:52%}.pin.p6{left:53%;top:62%}
+@media(max-width:520px){
+  .memory-board{height:570px}
+  .memory-photo{width:46%;padding:6px 6px 17px}
+  .memory-photo img{height:195px}
+  .m1{left:3%;top:9%}.m2{right:1%;top:12%}.m3{left:27%;top:27%}
+  .m4{right:7%;top:43%}.m5{left:1%;top:55%}.m6{left:33%;top:68%}
+  .two-col{grid-template-columns:1fr}
+}
+
+/* Video Call Archive — same investigation-board idea, different arrangement */
+.call-board{
+  position:relative;width:100%;height:700px;margin-top:18px;overflow:hidden;
+  border:1px solid #34343D;background:
+    radial-gradient(circle at 75% 18%,rgba(216,167,177,.06),transparent 25%),
+    #111117;border-radius:8px;
+}
+.call-board:before{
+  content:"VIDEO RECORDS / RECOVERED";
+  position:absolute;top:14px;right:15px;color:#706D69;
+  font:9px "Courier New",monospace;letter-spacing:.14em;z-index:1;
+}
+.call-photo{
+  position:absolute;background:#F0ECE5;padding:7px 7px 18px;
+  box-shadow:0 20px 35px rgba(0,0,0,.5);
+  width:38%;max-width:235px;z-index:2;
+  transition:transform .25s ease;
+}
+.call-photo img{
+  display:block;width:100%;height:245px;object-fit:cover;
+  filter:saturate(.9) contrast(1.02);
+}
+.call-photo:after{
+  content:"";position:absolute;left:50%;bottom:5px;width:5px;height:5px;
+  background:#8F4B55;border-radius:50%;transform:translateX(-50%);
+}
+.c1{left:3%;top:10%;transform:rotate(7deg);z-index:4}
+.c2{right:4%;top:7%;transform:rotate(-5deg);z-index:5}
+.c3{left:30%;top:23%;transform:rotate(-8deg);z-index:7}
+.c4{right:15%;top:42%;transform:rotate(6deg);z-index:6}
+.c5{left:5%;top:52%;transform:rotate(-4deg);z-index:8}
+.c6{left:38%;top:62%;transform:rotate(9deg);z-index:9}
+
+@media(max-width:520px){
+  .call-board{height:620px}
+  .call-photo{width:43%;padding:6px 6px 15px}
+  .call-photo img{height:195px}
+  .c1{left:1%;top:10%}.c2{right:0%;top:8%}.c3{left:28%;top:24%}
+  .c4{right:5%;top:43%}.c5{left:0%;top:53%}.c6{left:34%;top:64%}
+}
+
+/* Private voice file */
+.voice-player{
+  width:100%;margin-top:18px;
+  border:1px solid #34343D;background:#111117;border-radius:6px;
+  padding:10px;
+}
+.voice-player audio{width:100%;display:block}
+
+
+/* Song archive */
+.song-card{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.song-info h3{margin:0 0 5px}
+.song-info p{margin:0;color:#706D69;font:10px "Courier New",monospace;text-transform:uppercase;letter-spacing:.08em}
+.song-play{white-space:nowrap}
+
+/* Quiz */
+.quiz-option{
+  width:100%;display:flex;gap:13px;align-items:center;text-align:left;
+  border:1px solid #34343D;background:#17171F;color:#F5F1EA;
+  padding:15px;margin:9px 0;border-radius:5px;cursor:pointer;
+  font-size:14px;
+}
+.quiz-option:hover{border-color:#8F4B55}
+.quiz-letter{font:12px "Courier New",monospace;color:#D8A7B1;width:20px}
+.quiz-feedback{min-height:25px;margin-top:12px;font:11px "Courier New",monospace;letter-spacing:.06em}
+
+.video-placeholder{
+  min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;
+  border:1px dashed #34343D;color:#706D69;background:#111117;
+  font:11px "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase;
+}
+.play-circle{
+  width:64px;height:64px;border-radius:50%;border:1px solid #8F4B55;
+  display:flex;align-items:center;justify-content:center;color:#D8A7B1;font-size:23px;
+  margin:0 auto 13px;
+}
+.future-visual{text-align:center;opacity:.18;margin:5px 0 10px}
+.future-visual svg{width:190px;height:100px;fill:none;stroke:#D8A7B1;stroke-width:3}
+
+.checklist{list-style:none;padding:0;margin:18px 0}
+.checklist li{padding:8px 0;border-bottom:1px solid #34343D;font-size:13px}
+.checklist li:before{content:"☑";color:#D8A7B1;margin-right:9px}
+
+.final-box{
+  border:1px solid #8F4B55;padding:25px;text-align:center;
+  background:linear-gradient(180deg,rgba(143,75,85,.08),rgba(23,23,31,.7));
+}
+.final-love{font:clamp(34px,9vw,64px) Georgia,serif;line-height:1.05;color:#D8A7B1}
+footer{
+  position:fixed;bottom:10px;left:0;right:0;text-align:center;
+  color:#34343D;font:9px "Courier New",monospace;letter-spacing:.1em;pointer-events:none;
+}
+
+/* FINAL CENTERED LAYOUT OVERRIDE */
+.screen{
+  width:100%;
+  padding-left:18px;
+  padding-right:18px;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.screen-inner{
+  width:min(100%,680px);
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center;
+}
+.screen-inner > *{
+  margin-left:auto;
+  margin-right:auto;
+}
+.card,.media-frame,.evidence,.profile-row,.two-col,.song-card,.video-placeholder,.final-box{
+  margin-left:auto;
+  margin-right:auto;
+}
+.next{justify-content:center !important;}
+.back{left:50% !important;transform:translateX(-50%);white-space:nowrap;}
+.profile-row{text-align:left;}
+.media-frame{text-align:center;}
+.two-col{text-align:center;}
+.memory-board{text-align:left;}
+footer{left:0;right:0;text-align:center;}
+@media(max-width:520px){
+  .screen{padding-left:16px;padding-right:16px;}
+  .screen-inner{width:100%;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<section class="screen active" id="jtfw59">
+  <div class="screen-inner">
+    <div class="case-top">
+      <div class="kicker">Classified</div>
+      <div class="case-id">CASE FILE / 0609</div>
+    </div>
+    <div class="big-number">0609</div>
+    <div class="label" style="margin-top:28px">Subject: Manu</div>
+    <div class="rule"></div>
+    <p class="quote">Some cases begin when two people meet.<br>This one began much earlier.</p>
+    <div class="next"><button class="btn" onclick="go(2)">Begin Investigation</button></div>
+    <div class="rule"></div>
+    <div class="tiny">FILE STATUS: CLASSIFIED</div>
+  </div>
+</section>
+
+<!-- SCREEN 2 -->
+<section class="screen" id="s5qups">
+  <div class="screen-inner">
+    <div class="kicker">Security Check</div>
+    <h2>IDENTITY<br>VERIFICATION</h2>
+    <p class="muted">Before accessing this file, confirm your identity.</p>
+    <div class="card">
+      <input id="password" class="password" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+      <button class="btn full" style="margin-top:12px" onclick="verifyPassword()">Verify</button>
+      <div id="passwordStatus" class="status"></div>
+    </div>
+    <p class="tiny" style="margin-top:22px">HINT: THE DATE EVERYTHING OFFICIALLY CHANGED.</p>
+  </div>
+</section>
+
+<!-- SCREEN 3 -->
+<section class="screen" id="7dq277">
+  <div class="screen-inner">
+    <div class="kicker">Access Granted</div>
+    <h2>Welcome,<br>Manu.</h2>
+    <p class="muted">Your case has been open for quite some time.<br>Today, you're finally going to see the evidence.</p>
+    <div class="progress"><span></span></div>
+    <div class="status">SYSTEM STATUS: ONLINE <span class="pink">●</span></div>
+    <div class="next"><button class="btn" onclick="go(4)">Open Case →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 4 -->
+<section class="screen" id="2zjage">
+  <div class="screen-inner">
+    <div class="kicker">File Discovery</div>
+    <h2>THE<br>COINCIDENCE</h2>
+    <p class="quote">You had already been in my life...<br>without actually being in it.</p>
+    <p class="muted">Same school.</p>
+    <p class="muted">You left after 6th class.<br>I stayed until 10th.</p>
+    <p class="muted">We had already existed in the same place.</p>
+    <p class="muted">And somehow...<br>we never knew each other.</p>
+    <p class="muted">Then came 11th class.</p>
+    <p class="muted">And somehow,<br>our paths crossed again.</p>
+    <div class="rule"></div>
+    <div class="label">Connection Found</div>
+    <div class="next"><button class="btn" onclick="go(5)">Continue File →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 5 -->
+<section class="screen" id="zdqexa">
+  <div class="screen-inner">
+    <div class="kicker">Evidence #001</div>
+    <h2>THE FIRST<br>PICTURE</h2>
+    <div class="media-frame contain">
+      <img class="photo-main" src="trip-11th-first-picture.jpg" alt="First picture together from 11th class trip">
+    </div>
+    <div class="caption">11TH CLASS TRIP / EVIDENCE #001</div>
+    <p class="muted">I still remember how I felt in this moment.<br>
+    A little nervous. A little excited. Maybe a little confused about why being next to you suddenly felt different.</p>
+    <p class="muted">I didn't know what this picture would mean to me later.</p>
+    <p class="muted">At the time, it was just a picture.<br>Now... I see the beginning of something I didn't know I was about to fall so deeply into.</p>
+    <div class="rule"></div>
+    <div class="tiny">EVIDENCE #001 — A MOMENT I DIDN'T KNOW I'D REMEMBER</div>
+    <div class="next"><button class="btn" onclick="go(6)">Next Evidence →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 6 -->
+<section class="screen" id="hpr97s">
+  <div class="screen-inner">
+    <div class="kicker">Evidence #002</div>
+    <h2>THE FIRST<br>CONVERSATION</h2>
+    <div class="label">18 AUGUST</div>
+    <div class="media-frame contain" style="margin-top:14px">
+      <img src="first-conversation-18-aug.jpg" alt="First conversation screenshot from 18 August">
+    </div>
+    <p class="muted" style="margin-top:16px">No dramatic beginning.<br>No idea where this would lead.</p>
+    <p class="muted">Just two people starting a conversation...<br>and unknowingly opening a very important file.</p>
+    <div class="rule"></div>
+    <div class="tiny">FIRST CONTACT — 18.08</div>
+    <div class="next"><button class="btn" onclick="go(7)">Next Evidence →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 7 -->
+<section class="screen" id="6d49xm">
+  <div class="screen-inner">
+    <div class="kicker">Case Update</div>
+    <h2>THE MOMENT<br>IT CHANGED</h2>
+    <div class="label">06 SEPTEMBER</div>
+    <div class="media-frame contain" style="margin-top:14px">
+      <img src="proposal-6-sep.jpg" alt="Relationship conversation screenshot from 6 September">
+    </div>
+    <p class="muted" style="margin-top:16px">Somewhere between<br><span class="pink">"just talking"</span><br>and<br><span class="pink">"us"</span><br>there was this moment.</p>
+    <div class="quote">06.09<br>The day our story stopped being hypothetical.</div>
+    <div class="rule"></div>
+    <div class="label">Relationship — Officially Verified ✓</div>
+    <div class="next"><button class="btn" onclick="go(8)">Open Subject File →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 8 -->
+<section class="screen" id="u827p9">
+  <div class="screen-inner">
+    <div class="kicker">Subject Profile</div>
+    <h2>MANJEET</h2>
+    <div class="card">
+      <div class="profile-row"><span>Official Family Name</span><span>Manjeet</span></div>
+      <div class="profile-row"><span>Family Nickname</span><span>Manu</span></div>
+      <div class="profile-row"><span>My Name For Him</span><span>Chhotu</span></div>
+      <div class="profile-row"><span>His Name For Me</span><span>Butki</span></div>
+      <div class="profile-row"><span>Current Status</span><span>Taken</span></div>
+      <div class="profile-row"><span>Current Mission</span><span>Air Force Preparation</span></div>
+      <div class="profile-row"><span>Known Weakness</span><span>Butki</span></div>
+      <div class="profile-row"><span>Threat Level</span><span>Depends on how much he annoys Butki.</span></div>
+    </div>
+    <div class="rule"></div>
+    <div class="tiny">PROFILE STATUS: CONFIDENTIAL</div>
+    <div class="next"><button class="btn" onclick="go(9)">Behavioural Evidence →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 9 -->
+<section class="screen" id="evidence">
+  <div class="screen-inner">
+    <div class="kicker">Behavioural Evidence</div>
+    <h2>THE<br>EVIDENCE</h2>
+
+    <div class="evidence">
+      <strong>Evidence 01 — The Fumbling Incidents</strong>
+      <p>He imitates my fumbled words just to annoy me.</p>
+      <div class="label" style="margin-top:8px">Status: Annoying 😂</div>
+    </div>
+
+    <div class="card" style="margin:13px 0;border-style:dashed">
+      <div class="tiny">VIDEO-CALL RECORDS RECLASSIFIED → VIDEO CALL ARCHIVE</div>
+    </div>
+
+    <div class="evidence">
+      <strong>Evidence 02 — The Calm Response</strong>
+      <p>Even when I'm angry, he stays calm and tries to calm me.</p>
+      <div class="label" style="margin-top:8px">Unusual Behaviour Detected</div>
+    </div>
+
+    <div class="card" style="margin:13px 0;border-style:dashed">
+      <div class="tiny">ADDITIONAL CALL EVIDENCE → ARCHIVED SEPARATELY</div>
+    </div>
+
+    <div class="evidence">
+      <strong>Evidence 03 — The Plan Cancellations</strong>
+      <p>Sometimes he changes his plans to make me happy or spend time with me.</p>
+      <div class="label" style="margin-top:8px">Evidence Of Love: Confirmed ✓</div>
+    </div>
+
+    <div class="evidence">
+      <strong>Evidence 04 — The Explanation Videos</strong>
+      <p>When I'm upset, he makes a video explaining the things I'm upset about.</p>
+      <div class="label" style="margin-top:8px">Patient Boyfriend Detected</div>
+    </div>
+
+    <div class="card" style="margin:13px 0;border-style:dashed">
+      <div class="tiny">SIX RECOVERED CALLS → OPEN VIDEO CALL ARCHIVE</div>
+    </div>
+
+    <div class="next"><button class="btn" onclick="go(10)">Open Memory Archive →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 10 -->
+<section class="screen" id="q8unej">
+  <div class="screen-inner">
+    <div class="kicker">Memory Archive</div>
+    <h2>RECOVERED<br>FILES</h2>
+    <p class="muted">Some memories don't need a dramatic story.<br>They're important simply because they happened.</p>
+
+    <div class="memory-board">
+      <div class="pin p1"></div><div class="pin p2"></div><div class="pin p3"></div>
+      <div class="pin p4"></div><div class="pin p5"></div><div class="pin p6"></div>
+
+      <div class="memory-photo m1"><img src="memory-01.jpg" alt="Memory photo 1"></div>
+      <div class="memory-photo m2"><img src="memory-02.jpg" alt="Memory photo 2"></div>
+      <div class="memory-photo m3"><img src="memory-03.jpg" alt="Memory photo 3"></div>
+      <div class="memory-photo m4"><img src="memory-04.jpg" alt="Memory photo 4"></div>
+      <div class="memory-photo m5"><img src="memory-05.jpg" alt="Memory photo 5"></div>
+      <div class="memory-photo m6"><img src="memory-06.jpg" alt="Memory photo 6"></div>
+    </div>
+
+    <div class="rule"></div>
+    <div class="tiny">MEMORY COUNT: CLASSIFIED</div>
+    <div class="next"><button class="btn" onclick="go(11)">Continue Investigation →</button></div>
+  </div>
+</section>
+
+
+<!-- SCREEN 11 -->
+<section class="screen" id="videoarchive">
+  <div class="screen-inner">
+    <div class="kicker">Video Call Archive</div>
+    <h2>RECOVERED<br>CALLS</h2>
+    <p class="muted">Six recovered moments from our video calls.<br>Different days. Same two idiots. 😂</p>
+
+    <div class="call-board">
+      <div class="call-photo c1"><img src="video-call-01.jpg" alt="Video call screenshot 1"></div>
+      <div class="call-photo c2"><img src="video-call-02.jpg" alt="Video call screenshot 2"></div>
+      <div class="call-photo c3"><img src="video-call-03.jpg" alt="Video call screenshot 3"></div>
+      <div class="call-photo c4"><img src="video-call-04.jpg" alt="Video call screenshot 4"></div>
+      <div class="call-photo c5"><img src="video-call-05.jpg" alt="Video call screenshot 5"></div>
+      <div class="call-photo c6"><img src="video-call-06.jpg" alt="Video call screenshot 6"></div>
+    </div>
+
+    <div class="rule"></div>
+    <div class="tiny">VIDEO RECORD COUNT: 06 / ARCHIVED</div>
+    <div class="next"><button class="btn" onclick="go(12)">Continue Investigation →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 12 -->
+<section class="screen" id="am6taj">
+  <div class="screen-inner">
+    <div class="kicker">Current Chapter</div>
+    <h2>THE DISTANCE</h2>
+    <div class="label">NOT DISTANCE IN KM. — TIME.</div>
+
+    <div class="two-col" style="margin-top:18px">
+      <div class="card">
+        <div class="label">Study Evidence</div>
+        <div class="media-frame" style="margin-top:10px">
+          <img src="books-air-force.jpg" alt="Books and Air Force preparation">
+        </div>
+      </div>
+      <div class="card">
+        <div class="label">The Dream</div>
+        <div class="media-frame" style="margin-top:10px">
+          <img src="aircraft.jpg" alt="Aircraft">
+        </div>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:20px">Things changed when you started preparing for your Air Force exam.</p>
+    <p class="muted">Your dream started demanding more of your time, your energy, and your attention.</p>
+    <p class="muted">You told me beforehand that there would be days when you couldn't talk much.<br>I thought I understood.</p>
+    <p class="muted">But honestly...<br>I didn't always handle it well.</p>
+    <div class="rule"></div>
+    <div class="tiny">CURRENT CHAPTER — STILL IN PROGRESS</div>
+    <div class="next"><button class="btn" onclick="go(13)">Next File →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 12 -->
+<section class="screen" id="sldivf">
+  <div class="screen-inner">
+    <div class="kicker">Personal Statement</div>
+    <h2>THIS ONE<br>IS FROM ME.</h2>
+    <p class="muted">I'm sorry for the times I've taken my frustration out on you.</p>
+    <p class="muted">Sometimes I miss you and want your attention...<br>and instead of saying that properly, the anger comes out.</p>
+    <p class="muted">I know that's not fair to you.</p>
+    <p class="muted">You've been patient with me even when I've made things difficult.<br>I don't want to take that patience for granted.</p>
+
+    <div class="card light" style="margin-top:20px">
+      <div class="label">Commitment</div>
+      <div class="quote" style="margin-top:8px">I'm working on it.</div>
+    </div>
+
+    <p class="muted" style="margin-top:22px">I don't want you to have to choose between your dream and me.<br>I want to learn how to support you while you chase it.</p>
+    <div class="rule"></div>
+    <div class="tiny">STATEMENT FILED — 0609</div>
+    <div class="next"><button class="btn" onclick="go(14)">Open Future File →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 13 -->
+<section class="screen" id="0scyv7">
+  <div class="screen-inner">
+    <div class="kicker">Project: Our Future</div>
+    <h2>MISSION<br>OBJECTIVES</h2>
+
+    <div class="future-visual">
+      <svg viewBox="0 0 220 110" aria-hidden="true">
+        <circle cx="70" cy="32" r="16"/><circle cx="150" cy="32" r="16"/><circle cx="110" cy="46" r="11"/>
+        <path d="M35 101c4-35 18-47 35-47s31 12 35 47M115 101c4-35 18-47 35-47s31 12 35 47M84 101c2-24 10-33 26-33s24 9 26 33"/>
+      </svg>
+    </div>
+
+    <div class="card">
+      <div class="label">Primary Objective</div>
+      <div class="quote" style="margin-top:8px">Stay Together</div>
+      <ul class="checklist">
+        <li>Be happy</li>
+        <li>Take lots of trips</li>
+        <li>Make ridiculous memories</li>
+        <li>Build a life together</li>
+        <li>Someday have our daughter</li>
+        <li>Keep annoying each other</li>
+        <li>Keep calling you Chhotu</li>
+        <li>Keep being called Butki</li>
+      </ul>
+    </div>
+
+    <div class="rule"></div>
+    <div class="tiny">MISSION STATUS — IN PROGRESS</div>
+    <div class="next"><button class="btn" onclick="go(15)">Open Audio Archive →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 14 -->
+<section class="screen" id="l74h8l">
+  <div class="screen-inner">
+    <div class="kicker">Audio Archive</div>
+    <h2>SONGS I<br>KEEP WITH US</h2>
+    <p class="muted">Some songs just feel a little more like you.</p>
+
+    <div class="card song-card" style="margin-top:22px">
+      <div class="song-info">
+        <h3>Tu Chahiye</h3>
+        <p>Atif Aslam · Bajrangi Bhaijaan</p>
+      </div>
+      <a class="btn song-play" href="https://www.youtube.com/watch?v=VHSUsToKMMM&t=470s" target="_blank" rel="noopener">Listen ↗</a>
+    </div>
+
+    <div class="card song-card" style="margin-top:12px">
+      <div class="song-info">
+        <h3>Darkhaast</h3>
+        <p>Arijit Singh &amp; Sunidhi Chauhan · Shivaay</p>
+      </div>
+      <a class="btn song-play" href="https://www.youtube.com/watch?v=LMnJp_dSdnw" target="_blank" rel="noopener">Listen ↗</a>
+    </div>
+
+    <div class="card song-card" style="margin-top:12px">
+      <div class="song-info">
+        <h3>Teri Meri Kahaani</h3>
+        <p>Arijit Singh &amp; Palak Muchhal · Gabbar Is Back</p>
+      </div>
+      <a class="btn song-play" href="https://www.youtube.com/watch?v=ar5hpVZmGfw" target="_blank" rel="noopener">Listen ↗</a>
+    </div>
+
+    <div class="rule"></div>
+    <div class="tiny">AUDIO FILES — ARCHIVE OPEN</div>
+    <div class="next"><button class="btn" onclick="go(16)">Security Game →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 15 -->
+<section class="screen" id="quiz">
+  <div class="screen-inner">
+    <div class="kicker">Security Game</div>
+    <h2>HOW WELL DO<br>YOU KNOW US?</h2>
+    <p class="muted">Five questions.<br>One final verification.</p>
+
+    <div class="card">
+      <div class="label" id="quizCount">Question 1 / 5</div>
+      <h3 id="quizQuestion" style="margin-top:15px"></h3>
+      <div id="quizOptions"></div>
+      <div id="quizFeedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 17 -->
+<section class="screen" id="j9mady">
+  <div class="screen-inner">
+    <div class="kicker">Private Voice File</div>
+    <div class="label">0609</div>
+    <h2>WHAT I<br>COULDN'T PUT<br>IN THE CASE FILE</h2>
+
+    <div class="media-frame" style="margin-top:18px">
+      <div class="voice-player">
+        <audio id="voiceFile" preload="metadata" controls>
+          <source src="combined_voice_note.mp3" type="audio/mpeg">
+          Your browser does not support the audio player.
+        </audio>
+      </div>
+    </div>
+
+    <button class="btn full" style="margin-top:12px" onclick="playVoiceFile()">Play Private Voice File</button>
+    <div id="voiceNotice" class="status"></div>
+
+    <div class="rule"></div>
+    <div class="tiny">RECORDED FOR ONE PERSON — MANU</div>
+    <div class="next"><button class="btn" onclick="go(18)">Final Report →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 18 -->
+<section class="screen" id="e86v71">
+  <div class="screen-inner">
+    <div class="kicker">Final Report</div>
+    <div class="label">CASE FILE: 0609</div>
+    <h2>TO MANU,</h2>
+    <p class="muted">I made this because I wanted you to have something that was completely ours.</p>
+    <p class="muted">Not perfect.<br>Not serious all the time.<br>Not always easy.</p>
+    <p class="quote">Just...<br>us.</p>
+    <p class="muted">Thank you for being part of so many versions of me.</p>
+    <p class="muted">The annoying one.<br>The emotional one.<br>The happy one.<br>The one who misses you way too much.</p>
+    <p class="muted">And somehow,<br>you still stayed.</p>
+    <div class="rule"></div>
+    <div class="tiny">CASE STATUS: IRREPLACEABLE</div>
+    <div class="next"><button class="btn" onclick="go(19)">Close Case →</button></div>
+  </div>
+</section>
+
+<!-- SCREEN 19 -->
+<section class="screen" id="kb632v">
+  <div class="screen-inner">
+    <div class="card final-box">
+      <div class="label">First Contact — Confirmed ✓</div>
+      <div class="label" style="margin-top:12px">Relationship — Confirmed ✓</div>
+      <div class="label" style="margin-top:12px">Memories — Too Many</div>
+      <div class="label" style="margin-top:12px">Arguments — Classified</div>
+      <div class="label" style="margin-top:12px">Love — Ongoing</div>
+      <div class="label" style="margin-top:12px">Future — Under Investigation</div>
+
+      <div class="rule"></div>
+      <div class="quote">CASE CLOSED.</div>
+
+      <button class="btn" style="margin-top:22px" onclick="showLastThing()">One Last Thing...</button>
+      <div id="lastThing" style="display:none">
+        <div class="rule"></div>
+        <div class="tiny">CASE STATUS:</div>
+        <div class="quote" style="margin-top:7px;color:#D8A7B1">PROBABLY NOT.<br>TO BE CONTINUED.</div>
+        <div class="rule"></div>
+        <div class="final-love">I LOVE YOU,<br>CHHOTU.</div>
+        <div class="label" style="margin-top:18px">HAPPY BOYFRIEND'S DAY ❤️</div>
+        <div class="tiny" style="margin-top:18px">— BUTKI</div>
+      </div>
+    </div>
+    <div class="center tiny" style="margin-top:20px">END OF TRANSMISSION</div>
+  </div>
+</section>
+
+<footer>0609 // THE CASE OF US</footer>
+
+<script>
+const screens = Array.from(document.querySelectorAll(".screen"));
+
+function go(n){
+  screens.forEach((s,i)=>s.classList.toggle("active",i===n-1));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function verifyPassword(){
+  const input=document.getElementById("password");
+  const status=document.getElementById("passwordStatus");
+  if(input.value==="0609"){
+    status.textContent="✓ IDENTITY VERIFIED";
+    status.style.color="#D8A7B1";
+    setTimeout(()=>go(3),500);
+  }else{
+    status.textContent="✕ ACCESS DENIED — TRY AGAIN";
+    status.style.color="#8F4B55";
+    input.value="";
+  }
+}
+
+document.getElementById("password").addEventListener("keydown",e=>{
+  if(e.key==="Enter") verifyPassword();
+});
+
+const questions=[
+  {
+    q:"When was our first voice call?",
+    options:["18 September","20 September","22 September","25 September"],
+    answer:1
+  },
+  {
+    q:"What was our first physical touch?",
+    options:["Hug","High-five","Holding hands","Touching shoulders"],
+    answer:2
+  },
+  {
+    q:"What usually makes me jealous?",
+    options:["When you don't reply quickly","When you talk to other girls or give more priority to other people","When you study too much","When you cancel plans"],
+    answer:1
+  },
+  {
+    q:"What is our combined name?",
+    options:["Pranjeet","Prajeet","Pragjeet","Manrati"],
+    answer:1
+  },
+  {
+    q:"What was the colour of the first flowers?",
+    options:["Red","White","Pink","Yellow"],
+    answer:2
+  }
+];
+
+let qIndex=0;
+
+function renderQuiz(){
+  const q=questions[qIndex];
+  document.getElementById("quizCount").textContent=`Question ${qIndex+1} / ${questions.length}`;
+  document.getElementById("quizQuestion").textContent=q.q;
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizOptions").innerHTML=q.options.map((o,i)=>
+    `<button class="quiz-option" onclick="answerQuiz(${i})">
+      <span class="quiz-letter">${String.fromCharCode(65+i)}</span>${o}
+    </button>`
+  ).join("");
+}
+
+function answerQuiz(i){
+  const q=questions[qIndex];
+  const feedback=document.getElementById("quizFeedback");
+  if(i!==q.answer){
+    feedback.textContent="✕ ACCESS DENIED — TRY AGAIN";
+    feedback.style.color="#8F4B55";
+    return;
+  }
+
+  feedback.textContent="✓ VERIFICATION ACCEPTED";
+  feedback.style.color="#D8A7B1";
+
+  document.querySelectorAll(".quiz-option").forEach(b=>b.disabled=true);
+
+  setTimeout(()=>{
+    qIndex++;
+    if(qIndex<questions.length){
+      renderQuiz();
+    }else{
+      document.getElementById("quizCount").textContent="VERIFICATION COMPLETE";
+      document.getElementById("quizQuestion").textContent="✓ IDENTITY VERIFIED — ALL EVIDENCE MATCHED";
+      document.getElementById("quizOptions").innerHTML="";
+      document.getElementById("quizFeedback").textContent="CASE ACCESS GRANTED";
+      setTimeout(()=>{qIndex=0;renderQuiz();go(17)},900);
+    }
+  },650);
+}
+
+function playVoiceFile(){
+  const audio=document.getElementById("voiceFile");
+  const status=document.getElementById("voiceNotice");
+  if(!audio) return;
+  audio.play();
+  status.textContent="▶ PLAYING — PRIVATE VOICE FILE";
+  status.style.color="#D8A7B1";
+}
+
+function showLastThing(){
+  document.getElementById("lastThing").style.display="block";
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
